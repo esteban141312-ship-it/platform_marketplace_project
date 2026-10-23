@@ -649,4 +649,5 @@ Actualmente, la protección básica de la rama `main` está configurada para:
 
 Sin embargo, **está pendiente configurar los permisos adicionales para controlar qué integrantes pueden aprobar e integrar cambios en `main`**. Esta configuración se realizará posteriormente.
 
+
 Hasta entonces, los integrantes deben seguir el flujo de trabajo documentado: desarrollar en ramas independientes, publicar los cambios y utilizar Pull Requests para proponer su integración en la rama principal.
