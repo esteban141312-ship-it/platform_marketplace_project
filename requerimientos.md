@@ -10,16 +10,12 @@
 | Fecha | 23/10/2026 |
 | Empresa | Comercializadora ShopNet S.A.S |
 
----
-
 # Historial de Revisiones
 
 | Fecha | Versión | Descripción | Autor |
 |---------|---------|---------|---------|
 | 22/10/2026 | 1.0 | Redacción inicial | Joan Esteban Buitrago |
 | 23/10/2026 | 1.1 | Requerimientos funcionales y no funcionales | Daniel Camilo Borrero |
-
----
 
 # 1. Introducción
 
@@ -54,15 +50,15 @@ La plataforma estará disponible para cualquier usuario que se registre como cli
 
 Este documento servirá como guía para el diseño, desarrollo y pruebas de la plataforma.
 
----
-
 # 2. Descripción General
 
 La plataforma Marketplace está diseñada para permitir a los usuarios buscar productos, hacer pedidos, administrar inventario y gestionar compras desde una aplicación web.
 
 ## 2.1 Perspectiva del Producto
 
-El Marketplace será una aplicación web accesible desde cualquier navegador. Administrará:
+El Marketplace será una aplicación web accesible desde cualquier navegador.
+
+Administrará:
 
 - Clientes
 - Vendedores
@@ -82,17 +78,20 @@ El Marketplace será una aplicación web accesible desde cualquier navegador. Ad
 ## 2.3 Características de Usuario
 
 ### Cliente
+
 - Registrarse.
 - Buscar productos.
 - Realizar compras.
 - Consultar estado de pedidos.
 
 ### Vendedor
+
 - Crear productos.
 - Gestionar inventario.
 - Consultar pedidos.
 
 ### Administrador
+
 - Gestionar usuarios.
 - Generar reportes.
 - Administrar información global.
@@ -110,221 +109,129 @@ El Marketplace será una aplicación web accesible desde cualquier navegador. Ad
 - Dispositivos compatibles con aplicaciones web.
 - Integración con servicios de autenticación por correo electrónico.
 
----
-
 # 3. Requerimientos Específicos
 
 ## 3.1 Requerimientos Funcionales
 
----
-
 ### RF01 - Creación de Usuario
 
-**Prioridad:** Alta
-
-**Descripción:**  
-La plataforma permitirá registrar usuarios clientes y vendedores.
-
-**Entradas:**
-- Correo electrónico
-- Nombre
-- Contraseña
-
-**Proceso:**
-1. El usuario diligencia el formulario.
-2. El sistema valida:
-   - Correo existente y válido.
-   - Contraseña segura.
-   - Nombre disponible.
-3. Se crea el usuario.
-
-**Salida:**
-- Acceso al rol correspondiente.
-
-**Restricciones:**
-- Correo válido y activo.
-- Interfaces diferentes según el rol.
-
-**Efecto Colateral:**
-- Redirección a la interfaz correspondiente.
-
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | La plataforma permitirá registrar usuarios clientes y vendedores. |
+| Entradas | Correo electrónico, Nombre, Contraseña |
+| Proceso | 1. El usuario diligencia el formulario.<br>2. El sistema valida correo existente y válido.<br>3. El sistema valida contraseña segura.<br>4. El sistema valida nombre disponible.<br>5. Se crea el usuario. |
+| Salida | Acceso al rol correspondiente. |
+| Restricciones | Correo válido y activo.<br>Interfaces diferentes según el rol. |
+| Efecto Colateral | Redirección a la interfaz correspondiente. |
 
 ### RF02 - Recuperación de Contraseña
 
-**Prioridad:** Alta
-
-**Descripción:**  
-Permite recuperar la contraseña asociada a un correo registrado.
-
-**Entradas:**
-- Correo electrónico
-
-**Proceso:**
-1. Seleccionar "Recuperar contraseña".
-2. Introducir correo registrado.
-3. Enviar instrucciones de recuperación.
-
-**Salida:**
-- Recuperación o cambio de contraseña.
-
-**Restricciones:**
-- El correo debe existir en el sistema.
-
-**Efecto Colateral:**
-- Acceso nuevamente a la plataforma.
-
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | Permite recuperar la contraseña asociada a un correo registrado. |
+| Entradas | Correo electrónico |
+| Proceso | 1. Seleccionar "Recuperar contraseña".<br>2. Introducir correo registrado.<br>3. Enviar instrucciones de recuperación. |
+| Salida | Recuperación o cambio de contraseña. |
+| Restricciones | El correo debe existir en el sistema. |
+| Efecto Colateral | Acceso nuevamente a la plataforma. |
 
 ### RF03 - Carrito de Compras
 
-**Prioridad:** Alta
-
-**Descripción:**  
-Los usuarios podrán agregar productos disponibles a un carrito de compras.
-
-**Entradas:**
-- Productos en stock.
-
-**Proceso:**
-1. Seleccionar productos.
-2. Agregarlos al carrito.
-3. Confirmar compra.
-
-**Salida:**
-- Carrito actualizado.
-
-**Restricciones:**
-- Solo productos disponibles.
-
-**Efecto Colateral:**
-- Disminución del inventario tras la compra.
-
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | Los usuarios podrán agregar productos disponibles a un carrito de compras. |
+| Entradas | Productos en stock. |
+| Proceso | 1. Seleccionar productos.<br>2. Agregarlos al carrito.<br>3. Confirmar compra. |
+| Salida | Carrito actualizado. |
+| Restricciones | Solo productos disponibles. |
+| Efecto Colateral | Disminución del inventario tras la compra. |
 
 ### RF04 - Búsqueda y Filtro de Productos
 
-**Prioridad:** Alta
-
-**Descripción:**  
-Permite buscar productos por nombre o categoría.
-
-**Entradas:**
-- Nombre del producto.
-- Categoría.
-
-**Proceso:**
-1. Ingresar criterio de búsqueda.
-2. Consultar base de datos.
-3. Mostrar resultados.
-
-**Salida:**
-- Lista de productos coincidentes.
-
-**Restricciones:**
-- Solo productos registrados.
-
-**Efecto Colateral:**
-- Consultas frecuentes a la base de datos.
-
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | Permite buscar productos por nombre o categoría. |
+| Entradas | Nombre del producto, Categoría |
+| Proceso | 1. Ingresar criterio de búsqueda.<br>2. Consultar base de datos.<br>3. Mostrar resultados. |
+| Salida | Lista de productos coincidentes. |
+| Restricciones | Solo productos registrados. |
+| Efecto Colateral | Consultas frecuentes a la base de datos. |
 
 ### RF05 - Notificación de Stock Bajo
 
-**Prioridad:** Alta
-
-**Descripción:**  
-Notifica al vendedor cuando un producto alcance un nivel bajo de inventario.
-
-**Entradas:**
-- Cantidad disponible.
-
-**Proceso:**
-1. Monitorear stock.
-2. Detectar umbral mínimo.
-3. Enviar notificación.
-
-**Salida:**
-- Correo o notificación interna.
-
-**Restricciones:**
-- Solo al propietario del producto.
-
-**Efecto Colateral:**
-- Recepción de alertas.
-
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | Notifica al vendedor cuando un producto alcance un nivel bajo de inventario. |
+| Entradas | Cantidad disponible |
+| Proceso | 1. Monitorear stock.<br>2. Detectar umbral mínimo.<br>3. Enviar notificación. |
+| Salida | Correo o notificación interna. |
+| Restricciones | Solo al propietario del producto. |
+| Efecto Colateral | Recepción de alertas. |
 
 ### RF06 - Inicio de Sesión
 
-**Prioridad:** Alta
-
-**Descripción:**  
-Permite acceder a la plataforma mediante credenciales registradas.
-
-**Entradas:**
-- Usuario
-- Contraseña
-
-**Proceso:**
-1. Ingresar credenciales.
-2. Validar información.
-3. Crear sesión activa.
-
-**Salida:**
-- Acceso concedido o mensaje de error.
-
-**Restricciones:**
-- Usuario registrado previamente.
-
-**Efecto Colateral:**
-- Inicio de sesión activo.
-
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | Permite acceder a la plataforma mediante credenciales registradas. |
+| Entradas | Usuario, Contraseña |
+| Proceso | 1. Ingresar credenciales.<br>2. Validar información.<br>3. Crear sesión activa. |
+| Salida | Acceso concedido o mensaje de error. |
+| Restricciones | Usuario registrado previamente. |
+| Efecto Colateral | Inicio de sesión activo. |
 
 ## 3.2 Requerimientos No Funcionales
 
 ### RNF01 - Seguridad de Contraseñas
 
-**Prioridad:** Alta
-
-**Descripción:**  
-Las contraseñas deberán almacenarse utilizando algoritmos de hash seguros.
-
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | Las contraseñas deberán almacenarse utilizando algoritmos de hash seguros. |
 
 ### RNF02 - Compatibilidad
 
-**Prioridad:** Alta
-
-**Descripción:**  
-La plataforma deberá ejecutarse correctamente en:
-
-- Computadores
-- Tablets
-- Teléfonos móviles
-
-Además, deberá ser accesible desde navegadores modernos.
-
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | La plataforma deberá ejecutarse correctamente en computadores, tablets y teléfonos móviles. Además, deberá ser accesible desde navegadores modernos. |
 
 # Consideraciones Futuras
 
 Se recomienda agregar los siguientes RNF:
 
 ### RNF03 - Disponibilidad
-El sistema estará disponible el 99% del tiempo.
+
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Media |
+| Descripción | El sistema estará disponible el 99% del tiempo. |
 
 ### RNF04 - Rendimiento
-Las búsquedas deberán responder en menos de 3 segundos.
+
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | Las búsquedas deberán responder en menos de 3 segundos. |
 
 ### RNF05 - Escalabilidad
-El sistema deberá soportar un crecimiento gradual de usuarios y productos.
+
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Media |
+| Descripción | El sistema deberá soportar un crecimiento gradual de usuarios y productos. |
 
 ### RNF06 - Usabilidad
-La interfaz deberá ser intuitiva y fácil de utilizar.
 
----
+| Campo | Detalle |
+|---------|---------|
+| Prioridad | Alta |
+| Descripción | La interfaz deberá ser intuitiva y fácil de utilizar. |
 
 # Confidencialidad
 
