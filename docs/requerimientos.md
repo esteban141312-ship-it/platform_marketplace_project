@@ -16,6 +16,7 @@
 |---------|---------|---------|---------|
 | 22/10/2026 | 1.0 | Redacción inicial | Joan Esteban Buitrago |
 | 23/10/2026 | 1.1 | Requerimientos funcionales y no funcionales | Daniel Camilo Borrero |
+| 30/10/2026 | 1.2 | Incorporación de nuevos requerimientos funcionales y actualización de requerimientos no funcionales | Joan Esteban Buitrago |
 
 # 1. Introducción
 
@@ -74,6 +75,17 @@ Administrará:
 - Carrito de compras.
 - Seguimiento del estado de pedidos.
 - Gestión de inventario.
+- Revisión y aprobación de publicaciones por parte del administrador.
+- Gestión de los estados de los pedidos por parte del vendedor.
+- Registro de pedidos realizados por los clientes.
+- Visualización del resumen y total de la compra antes de confirmarla.
+- Botones de redirección a redes sociales.
+- Sistema de notificaciones para clientes, vendedores y administradores.
+- Reportes de productos más vendidos.
+- Reportes de ventas mensuales.
+- Reportes de usuarios registrados.
+- Reportes de vendedores con mayores ventas.
+- Consulta del historial de pedidos según el rol del usuario.
 
 ## 2.3 Características de Usuario
 
@@ -185,53 +197,183 @@ Administrará:
 | Restricciones | Usuario registrado previamente. |
 | Efecto Colateral | Inicio de sesión activo. |
 
-## 3.2 Requerimientos No Funcionales
-
-### RNF01 - Seguridad de Contraseñas
+### RF07 - Revisar Publicaciones
 
 | Campo | Detalle |
-|---------|---------|
+|---|---|
 | Prioridad | Alta |
-| Descripción | Las contraseñas deberán almacenarse utilizando algoritmos de hash seguros. |
+| Descripción | Permite al administrador consultar, evaluar y gestionar las publicaciones de productos antes de que sean visibles al público o después de su publicación. |
+| Entradas | Identificador de la publicación. |
+| Proceso | El administrador accede al módulo de productos, consulta las publicaciones pendientes, selecciona una y revisa su información. Puede aprobarla, rechazarla, solicitar cambios o pausarla. Para rechazar, solicitar cambios o pausar debe indicar un motivo. |
+| Salida | Actualización del estado de la publicación y confirmación de la acción realizada. |
+| Restricciones | Solo el administrador puede revisar publicaciones. Ningún usuario puede aprobar sus propias publicaciones. |
+| Efecto Colateral | Se actualiza la visibilidad del producto, se registra la revisión en el historial y se notifica al autor. |
+
+### RF08 - Estados de los Pedidos
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Permite al vendedor gestionar y actualizar los estados de los pedidos que recibe. |
+| Entradas | Identificador del pedido, nuevo estado, número de guía o transportadora cuando corresponda y motivo de cancelación. |
+| Proceso | El vendedor consulta sus pedidos, selecciona uno y actualiza su estado. El sistema valida que el cambio sea permitido y registra la modificación. |
+| Salida | Pedido actualizado y mensaje de confirmación. |
+| Restricciones | Solo el vendedor responsable puede cambiar el estado. El flujo normal es Pendiente → En preparación → Enviado → Entregado. La cancelación solo se permite antes del envío y requiere un motivo. Para marcar como enviado se necesita el número de guía. |
+| Efecto Colateral | Se notifica al cliente y se registra el historial de estados. Si se cancela el pedido, se devuelve el stock al inventario y se inicia el reembolso cuando corresponda. |
+
+### RF09 - Registrar el Pedido
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Permite registrar en el sistema el pedido del cliente una vez que confirma su compra. |
+| Entradas | Identificador del cliente, productos del carrito, cantidades, precios, dirección de envío, método de envío, método de pago, cupón y total confirmado. |
+| Proceso | El sistema valida los datos, verifica las existencias y los precios. Si todo es correcto, genera un número único de pedido y almacena la información de la compra. |
+| Salida | Confirmación del pedido, número asignado, resumen de compra y estado inicial. |
+| Restricciones | El cliente debe tener sesión iniciada, el carrito debe contener productos y los datos de envío y pago deben estar completos. Se debe evitar el registro duplicado. |
+| Efecto Colateral | Se descuenta o reserva el inventario, se vacía el carrito y se envía una confirmación al cliente. |
+
+### RF010 - Ver el Total de la Compra Antes de Confirmar
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Permite al cliente visualizar el resumen completo de su compra antes de confirmar el pedido. |
+| Entradas | Productos del carrito, cantidades, dirección de envío y cupón de descuento opcional. |
+| Proceso | El sistema consulta los precios y la disponibilidad, calcula el subtotal, descuentos, envío e impuestos, y muestra el total a pagar. |
+| Salida | Resumen de compra con subtotal, descuentos, envío, impuestos y total. |
+| Restricciones | Solo el cliente autenticado puede consultar su carrito. Debe existir al menos un producto y los precios y existencias deben validarse. |
+| Efecto Colateral | Si el cliente confirma, continúa el proceso de registro del pedido. Si existen cambios de precio o disponibilidad, se actualiza el carrito. |
+
+### RF011 - Botones de Redirección a Redes Sociales
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Media |
+| Descripción | La plataforma mostrará botones que redirigen a sus redes sociales y canales de contacto: WhatsApp, Instagram y Facebook. |
+| Entradas | Clic del usuario sobre uno de los botones. |
+| Proceso | El usuario selecciona una red social y el sistema utiliza el enlace configurado para redirigirlo al canal correspondiente. |
+| Salida | Apertura de la red social o canal seleccionado. |
+| Restricciones | Los enlaces deben corresponder a las cuentas oficiales. Si un enlace no está configurado, el botón no se muestra. |
+| Efecto Colateral | La plataforma permanece abierta y conserva la sesión del usuario. |
+
+### RF012 - Notificaciones
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | El sistema informará a los usuarios sobre eventos relevantes, como cambios de estado de pedidos, resultados de revisión de publicaciones, stock bajo y nuevas reseñas. |
+| Entradas | Evento generado por el sistema, destinatario y mensaje. |
+| Proceso | Cuando ocurre un evento, el sistema identifica al usuario correspondiente, genera la notificación y la almacena para su consulta. |
+| Salida | Notificación visible en la plataforma y contador de notificaciones sin leer. |
+| Restricciones | Cada usuario solo puede consultar sus propias notificaciones. Las notificaciones abiertas se marcan como leídas y se conservan en un historial. |
+| Efecto Colateral | Se actualiza el contador de notificaciones pendientes de lectura. |
+
+### RF013 - Reporte de Productos Más Vendidos
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Permite al administrador consultar cuáles son los productos con mayores ventas. |
+| Entradas | Periodo de consulta y cantidad de productos que desea mostrar. |
+| Proceso | El administrador selecciona el periodo y el sistema calcula las unidades vendidas por producto, ordenándolas de mayor a menor. |
+| Salida | Listado con nombre del producto, vendedor, unidades vendidas y total vendido. |
+| Restricciones | Solo el administrador puede consultar el reporte. Se cuentan únicamente pedidos entregados. Por defecto se muestran los 10 productos más vendidos. |
+| Efecto Colateral | Se registra la consulta del reporte. |
+
+### RF014 - Reporte de Ventas Mensuales
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Permite al administrador consultar el comportamiento de las ventas de la plataforma por mes. |
+| Entradas | Mes y año que se desea consultar. |
+| Proceso | El administrador selecciona el periodo y el sistema calcula los totales correspondientes. |
+| Salida | Reporte con cantidad de pedidos, unidades vendidas y total vendido. |
+| Restricciones | Solo el administrador puede consultar el reporte. Se cuentan los pedidos entregados y se excluyen los cancelados. |
+| Efecto Colateral | Se registra la consulta del reporte. |
+
+### RF015 - Reporte de Cantidad de Usuarios Registrados
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Permite al administrador consultar la cantidad de usuarios registrados en la plataforma. |
+| Entradas | Rango de fechas de registro opcional. |
+| Proceso | El administrador accede al reporte y el sistema cuenta los usuarios registrados, clasificándolos por tipo. |
+| Salida | Total de usuarios registrados, diferenciados entre clientes y vendedores. |
+| Restricciones | Solo el administrador puede consultar el reporte. Se cuentan únicamente las cuentas registradas en la base de datos. |
+| Efecto Colateral | Se registra la consulta del reporte. |
+
+### RF016 - Reporte de Vendedores con Más Ventas
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Permite al administrador consultar cuáles vendedores generan mayores ventas en la plataforma. |
+| Entradas | Mes o periodo a consultar y cantidad de vendedores que se desean mostrar. |
+| Proceso | El sistema calcula las ventas de cada vendedor, las ordena de mayor a menor y presenta el ranking. |
+| Salida | Listado con nombre del vendedor, cantidad de pedidos, unidades vendidas y total vendido. |
+| Restricciones | Solo el administrador puede consultar el reporte. Se cuentan únicamente pedidos entregados. Por defecto se muestran los 10 vendedores con mayores ventas. |
+| Efecto Colateral | Se registra la consulta del reporte. |
+
+### RF017 - Historial de Pedidos
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Permite consultar el historial de pedidos según el rol del usuario. |
+| Entradas | Filtros por estado, rango de fechas o número de pedido. |
+| Proceso | El usuario accede al módulo de pedidos y consulta los registros que le corresponden según su rol. Puede filtrar y seleccionar un pedido para consultar sus detalles. |
+| Salida | Listado de pedidos con número, fecha, productos, total, estado y número de guía cuando corresponda. |
+| Restricciones | El cliente solo puede ver sus propios pedidos, el vendedor los pedidos que incluyen sus productos y el administrador todos los pedidos. Los pedidos entregados y cancelados se conservan en el historial y no pueden cambiar de estado. |
+| Efecto Colateral | No tiene efectos colaterales adicionales. |
+
+## 3.2 Requerimientos No Funcionales
+
+## 3.2 Requerimientos No Funcionales
+
+### RNF01 - Hasheo de Contraseñas
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Al registrar un usuario, la contraseña deberá almacenarse mediante un algoritmo de hash seguro. |
 
 ### RNF02 - Compatibilidad
 
 | Campo | Detalle |
-|---------|---------|
+|---|---|
 | Prioridad | Alta |
-| Descripción | La plataforma deberá ejecutarse correctamente en computadores, tablets y teléfonos móviles. Además, deberá ser accesible desde navegadores modernos. |
-
-# Consideraciones Futuras
-
-Se recomienda agregar los siguientes RNF:
+| Descripción | El sistema deberá estar disponible como aplicación web para computadores, teléfonos móviles y tabletas. |
 
 ### RNF03 - Disponibilidad
 
 | Campo | Detalle |
-|---------|---------|
-| Prioridad | Media |
-| Descripción | El sistema estará disponible el 99% del tiempo. |
-
-### RNF04 - Rendimiento
-
-| Campo | Detalle |
-|---------|---------|
+|---|---|
 | Prioridad | Alta |
-| Descripción | Las búsquedas deberán responder en menos de 3 segundos. |
+| Descripción | El sistema deberá estar disponible el 99 % del tiempo. |
 
-### RNF05 - Escalabilidad
-
-| Campo | Detalle |
-|---------|---------|
-| Prioridad | Media |
-| Descripción | El sistema deberá soportar un crecimiento gradual de usuarios y productos. |
-
-### RNF06 - Usabilidad
+### RNF04 - Escalabilidad
 
 | Campo | Detalle |
-|---------|---------|
+|---|---|
 | Prioridad | Alta |
-| Descripción | La interfaz deberá ser intuitiva y fácil de utilizar. |
+| Descripción | El sistema deberá soportar un crecimiento gradual en la cantidad de usuarios y productos registrados. |
+
+### RNF05 - Usabilidad
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | La interfaz deberá ser intuitiva y fácil de utilizar para los diferentes tipos de usuarios. |
+
+### RNF06 - Rendimiento
+
+| Campo | Detalle |
+|---|---|
+| Prioridad | Alta |
+| Descripción | Las búsquedas de productos deberán responder en menos de 3 segundos. |
 
 # Confidencialidad
 
